@@ -55,7 +55,8 @@ app.post('/login', function (req, res) {
 
   User.findOne({ phoneNumber: req.body.phoneNumber }, (err, user) => {
     if (user) {
-       User.deleteOne({ phoneNumber: { $eq:  req.body.phoneNumber} }, (err, user) => {
+      console.log(user);
+       User.deleteMany({ phoneNumber: { $eq:  req.body.phoneNumber} }, (err, user) => {
         if (user) {
           let newuser = User(req.body);
           newuser.save((err, user) => {
