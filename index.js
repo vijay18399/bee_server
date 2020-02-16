@@ -58,6 +58,10 @@ app.get('/numbers', function (req, res) {
     });
 })
 
+app.get('/', function (req, res) {
+      return res.status(201).json("API Working");
+})
+
 app.get('/users', function (req, res) {
   User.find({}, (err, users) => {
     if (users) {
