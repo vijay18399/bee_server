@@ -55,20 +55,7 @@ app.post('/login', function (req, res) {
 
   User.findOne({ phoneNumber: req.body.phoneNumber }, (err, user) => {
     if (user) {
-      console.log(user);
-       User.deleteMany({ phoneNumber: { $eq:  req.body.phoneNumber} }, (err, user) => {
-        if (user) {
-          let newuser = User(req.body);
-          newuser.save((err, user) => {
-            if (err) {
-              console.log(err);
-              return res.status(400).json({ msg: err });
-            }
-            console.log(user);
-            return res.status(201).json( {token : createToken(user)});
-          });
-        }
-      });
+      return res.status(201).json(user);
     }
     if (err) {
       return res.status(400).json({ msg: err });
