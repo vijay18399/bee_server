@@ -40,6 +40,26 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.post('/create_user', function (req, res) {
+
+  User.findOne({ phoneNumber: req.body.phoneNumber }, (err, user) => {
+    if (user) {
+       condition = { phoneNumber: req.body.phoneNumber }
+       update =  req.body
+       User.update(condition,update,(err, user) => {
+        if (err) {
+          console.log(err);
+          return res.status(400).json({ msg: err });
+        }
+        console.log(user);
+        return res.status(201).json(user);
+      });
+    }
+    if (err) {
+      return res.status(400).json({ msg: err });
+    }
+
+  });
+  
     let newuser = User(req.body);
     newuser.save((err, user) => {
       if (err) {
