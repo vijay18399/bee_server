@@ -4,7 +4,7 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var User = require("./models/user");
 var cors = require('cors');
-
+var port = process.env.PORT || 3000;
 //
 function toStringArray(array) {
   arr =[];
@@ -76,4 +76,4 @@ app.get('/users', function (req, res) {
 
 
 
-app.listen(3000)
+app.listen(port);
