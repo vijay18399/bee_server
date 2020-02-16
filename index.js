@@ -55,7 +55,7 @@ app.post('/login', function (req, res) {
 
   User.findOne({ phoneNumber: req.body.phoneNumber }, (err, user) => {
     if (user) {
-      return res.status(201).json(user);
+      return res.status(201).json( {token : createToken(user)});
     }
     if (err) {
       return res.status(400).json({ msg: err });
