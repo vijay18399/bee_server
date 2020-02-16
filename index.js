@@ -4,7 +4,9 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var User = require("./models/user");
 var cors = require('cors');
+var jwt = require("jsonwebtoken");
 var port = process.env.PORT || 3000;
+var jwtSecret = "some secret"
 //
 function toStringArray(array) {
   arr =[];
@@ -12,6 +14,16 @@ function toStringArray(array) {
       arr[i]= String(array[i].phoneNumber);
   }
   return arr;
+}
+
+function createToken(user) {
+  return jwt.sign(
+    { id: user._id, Name: user.Name, phoneNumber: user.phoneNumber , Gender: user.Gender , BirthDate: user.BirthDate },
+    jwtSecret,
+    {
+      expiresIn: 86400 // 86400 expires in 24 hours
+    }
+  );
 }
 
 mongoose.connect('mongodb://vijay18399:dilse18399@ds351428.mlab.com:51428/users', {
@@ -39,7 +51,7 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.post('/create_user', function (req, res) {
+app.post('/login', function (req, res) {
 
   User.findOne({ phoneNumber: req.body.phoneNumber }, (err, user) => {
     if (user) {
@@ -51,7 +63,7 @@ app.post('/create_user', function (req, res) {
           return res.status(400).json({ msg: err });
         }
         console.log(user);
-        return res.status(201).json(user);
+        return res.status(201).json(  {token : createToken(user)});
       });
     }
     if (err) {
@@ -67,7 +79,7 @@ app.post('/create_user', function (req, res) {
         return res.status(400).json({ msg: err });
       }
       console.log(user);
-      return res.status(201).json(user);
+      return res.status(201).json( {token : createToken(user)});
     });
   })
 app.get('/numbers', function (req, res) {
