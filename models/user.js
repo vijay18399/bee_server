@@ -6,8 +6,7 @@ var UserSchema = new mongoose.Schema({
     },
     phoneNumber: {
         type: Number,
-        required: true,
-        unique :true
+        required: true
     },
     Gender: {
         type: String,

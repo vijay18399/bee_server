@@ -55,15 +55,18 @@ app.post('/login', function (req, res) {
 
   User.findOne({ phoneNumber: req.body.phoneNumber }, (err, user) => {
     if (user) {
-       condition = { phoneNumber: req.body.phoneNumber }
-       update =  req.body
-       User.update(condition,update,(err, user) => {
-        if (err) {
-          console.log(err);
-          return res.status(400).json({ msg: err });
+       User.deleteOne({ phoneNumber: { $eq:  req.body.phoneNumber} }, (err, user) => {
+        if (user) {
+          let newuser = User(req.body);
+          newuser.save((err, user) => {
+            if (err) {
+              console.log(err);
+              return res.status(400).json({ msg: err });
+            }
+            console.log(user);
+            return res.status(201).json( {token : createToken(user)});
+          });
         }
-        console.log(user);
-        return res.status(201).json(  {token : createToken(user)});
       });
     }
     if (err) {
