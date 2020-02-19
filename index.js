@@ -3,6 +3,7 @@ const app = express()
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var User = require("./models/user");
+var Message = require("./models/Message");
 var cors = require('cors');
 var jwt = require("jsonwebtoken");
 var port = process.env.PORT || 3000;
@@ -86,6 +87,32 @@ app.get('/numbers', function (req, res) {
         return res.status(201).json(toStringArray(user));
       }
     });
+})
+
+
+app.get('/messages/:from/:to', function (req, res) {
+
+  if (req.params.to && req.params.from) {
+    to = req.params.to;
+    from = req.params.from;
+    q1 = {
+      $and: [{ to: { $eq: to } }, { from: { $eq: from } }]
+    };
+    q2 = {
+      $and: [{ to: { $eq: from } }, { from: { $eq: to } }]
+    };
+
+    query = { $or: [q1, q2] };
+
+    Message.find(query, (err, messages) => {
+      if (messages) {
+        console.log(messages);
+        return res.status(201).json(messages);
+      }
+    });
+  } else {
+    return res.status(400).json({ msg: " invalid query attempted" });
+  }
 })
 
 app.get('/', function (req, res) {
