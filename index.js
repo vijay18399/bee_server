@@ -58,7 +58,7 @@ app.post('/login', function (req, res) {
     if (user) {
       User.updateOne({ phoneNumber: { $eq: req.body.phoneNumber } }, req.body, (err, data) => {
         if(data){
-          return res.status(201).json( {token : createToken(data)});
+          return res.status(201).json( {token : createToken(req.body)});
         }
         if (err) {
           return res.status(400).json({ msg: err });
