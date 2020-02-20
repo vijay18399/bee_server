@@ -107,7 +107,7 @@ app.get('/messages/:from/:to', function (req, res) {
 
     query = { $or: [q1, q2] };
     
-    Message.find(query, {"sort" : ['createdAt', 'asc']} , (err, messages) => {
+    Message.find(query, {"sort" : [['createdAt', 'asc']]} , (err, messages) => {
       if (messages) {
         console.log(messages);
         return res.status(201).json(messages);
