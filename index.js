@@ -65,21 +65,24 @@ app.post('/login', function (req, res) {
         }
       });
     }
+    else{
+      let newuser = User(req.body);
+      newuser.save((err, user) => {
+        if (err) {
+          console.log(err);
+          return res.status(400).json({ msg: err });
+        }
+        console.log(user);
+        return res.status(201).json( {token : createToken(user)});
+      });
+    }
     if (err) {
       return res.status(400).json({ msg: err });
     }
 
   });
   
-    let newuser = User(req.body);
-    newuser.save((err, user) => {
-      if (err) {
-        console.log(err);
-        return res.status(400).json({ msg: err });
-      }
-      console.log(user);
-      return res.status(201).json( {token : createToken(user)});
-    });
+
   })
 app.get('/numbers', function (req, res) {
     User.find({},{ phoneNumber: 1,'_id': false },  (err, user) => {
