@@ -56,7 +56,7 @@ app.post('/login', function (req, res) {
 
   User.findOne({ phoneNumber: req.body.phoneNumber }, (err, user) => {
     if (user) {
-      User.update({ phoneNumber: { $eq: req.body.phoneNumber } }, req.body, (err, data) => {
+      User.updateOne({ phoneNumber: { $eq: req.body.phoneNumber } }, req.body, (err, data) => {
         if(data){
           return res.status(201).json( {token : createToken(data)});
         }
