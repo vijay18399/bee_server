@@ -4,6 +4,7 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var User = require("./models/user");
 var Message = require("./models/Message");
+var Group = require("./models/Group");
 var cors = require('cors');
 var jwt = require("jsonwebtoken");
 var port = process.env.PORT || 3000;
