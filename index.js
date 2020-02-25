@@ -164,7 +164,23 @@ app.get('/addto/:gid', function (req, res) {
   });
   })
 
+  app.get('/gmessages/:gid', function (req, res) {
 
+    if (req.params.gid) {
+     
+  
+      query = { groupid: { $eq: req.params.gid }  };
+      
+      Message.find(query).sort({'createdAt' : 1}).exec((err, messages) => {
+        if (messages) {
+          console.log(messages);
+          return res.status(201).json(messages);
+        }
+      });
+    } else {
+      return res.status(400).json({ msg: " invalid query attempted" });
+    }
+  })
 
 
 
