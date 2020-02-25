@@ -150,7 +150,7 @@ Group.find({}, (err, groups) => {
 })
 
 app.get('/addto/:gid', function (req, res) {
-  Group.find({}, (err, group) => {
+  Group.find({_id : req.params.gid}, (err, group) => {
     if (group) {
       group.members.push(req.body.member);
       group.membercheck.push(req.body.members.phoneNumber);
