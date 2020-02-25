@@ -130,7 +130,35 @@ app.get('/users', function (req, res) {
   });
 })
 
+app.post('/creategroup', function (req, res) {
+let newGroup = Group(req.body);
+newGroup.save((err, group) => {
+  if (err) {
+    return res.status(400).json({ msg: err });
+  }
+  return res.status(201).json(group);
+});
+})
 
+
+app.get('/groups', function (req, res) {
+Group.find({}, (err, groups) => {
+  if (groups) {
+    return res.status(201).json(groups);
+  }
+});
+})
+
+app.get('/addto/:gid', function (req, res) {
+  Group.find({}, (err, group) => {
+    if (group) {
+      group.members.push(req.body.member);
+      group.membercheck.push(req.body.members.phoneNumber);
+      group.save();
+      return res.status(201).json({success:true});
+    }
+  });
+  })
 
 
 
