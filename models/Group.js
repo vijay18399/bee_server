@@ -12,7 +12,7 @@ var GroupSchema = new mongoose.Schema({
         lowercase: true,
         trim: true
     },
-    memebers: {
+    members: {
         type: Array
     },
     membercheck:{
