@@ -7,7 +7,7 @@ var GroupSchema = new mongoose.Schema({
         trim: true
     },
     admin: {
-        type: String,
+        type: Object,
         required: true,
         lowercase: true,
         trim: true
