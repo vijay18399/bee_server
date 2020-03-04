@@ -150,7 +150,8 @@ Group.find({}, (err, groups) => {
 });
 })
 
-app.get('/update', function (req, res) {
+app.post('/update', function (req, res) {
+  console.log(req.body);
     Group.updateOne({ _id : { $eq: req.body._id } }, req.body, (err, data) => {
       if(data){
         console.log(data);
