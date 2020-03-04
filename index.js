@@ -150,18 +150,17 @@ Group.find({}, (err, groups) => {
 });
 })
 
-app.get('/addto/:gid', function (req, res) {
-  Group.find({_id : req.params.gid}, (err, group) => {
-    if (group) {
-      group.members.push(req.body.member);
-      group.membercheck.push(req.body.members.phoneNumber);
-      group.save();
-      return res.status(201).json({success:true});
-    }
-    if (err) {
-      return res.status(400).json({success:false, msg: err });
-    }
-  });
+app.get('/update', function (req, res) {
+    Group.updateOne({ _id : { $eq: req.body._id } }, req.body, (err, data) => {
+      if(data){
+        console.log(data);
+        return res.status(201).json({success:true});
+      }
+      if (err) {
+        console.log(err);
+        return res.status(400).json({success:false, msg: err });
+      }
+    });
   })
 
   app.get('/gmessages/:gid', function (req, res) {
